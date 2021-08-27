@@ -1,0 +1,29 @@
+[Unit]
+# This is a text description of your service.
+Description=Node Pilot
+
+# Our service wants—but doesn’t require—the network to be up before our service is started.
+Wants=network.target
+# Process dependencies
+Requires=docker.service
+# A list of unit names that should be started after this service has been successfully started, if they’re not already running.
+After=network-online.target docker.service
+
+[Service]
+User=USER
+# Simple. systemd will consider this service started as soon as the process specified by ExecStart has been forked.
+Type=simple
+# The path to the process that should be started.
+ExecStart=NP_FILE
+# When and if the service should be restarted. We have set it to “on-failure.”
+Restart=always
+# How long to wait before attempting to restart the service. This value is in seconds.
+RestartSec=10
+# Defines how systemd should kill the process if we ask systemctl to stop the service. We have this set to “process.”
+# This causes systemd to use the SIGTERM signal on the main process only.
+# If our service was a non-trivial program instead of a simple script, we would set this to “mixed”
+# to ensure that any spawned processes were also terminated.
+KillMode=process
+
+[Install]
+WantedBy=default.target
