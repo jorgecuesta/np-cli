@@ -1,5 +1,5 @@
 #!/bin/bash
-set -ex
+set -e
 
 CMD=$1
 SERVICE_FILE=/etc/systemd/system/np.service
